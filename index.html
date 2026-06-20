@@ -31,96 +31,12 @@
             -webkit-tap-highlight-color: transparent;
         }
 
-        /* --- പാസ്‌വേർഡ് സ്ക്രീൻ സ്റ്റൈൽ --- */
-        #login-screen {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: #000000;
-            display: flex; 
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            z-index: 999999;
-        }
-
-        .login-title {
-            color: #ffffff;
-            font-size: 38px;
-            font-weight: bold;
-            margin: 0 0 10px 0;
-            letter-spacing: 2px;
-            text-transform: uppercase;
-        }
-
-        .login-subtitle {
-            color: rgba(255, 255, 255, 0.7);
-            font-size: 16px;
-            margin-bottom: 25px;
-            letter-spacing: 1px;
-        }
-
-        .password-input {
-            background: rgba(255, 255, 255, 0.08);
-            border: 1px solid rgba(255, 255, 255, 0.2);
-            padding: 15px 20px;
-            border-radius: 12px;
-            color: #ffffff;
-            font-size: 18px;
-            width: 250px;
-            text-align: center;
-            outline: none;
-            margin-bottom: 20px;
-            letter-spacing: 2px;
-            transition: all 0.3s ease;
-        }
-
-        .password-input:focus {
-            border-color: #2ecc71;
-            background: rgba(255, 255, 255, 0.12);
-        }
-
-        .password-input.error {
-            border-color: #ff4757;
-            background: rgba(255, 71, 87, 0.1);
-            animation: shake 0.4s ease;
-        }
-
-        .submit-btn {
-            background: #2ecc71; 
-            color: #000000;
-            border: none;
-            padding: 15px 40px;
-            font-size: 18px;
-            font-weight: bold;
-            border-radius: 12px;
-            cursor: pointer;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            transition: transform 0.2s, background 0.3s;
-            box-shadow: 0 4px 15px rgba(46, 204, 113, 0.4);
-        }
-
-        .submit-btn:active {
-            transform: scale(0.95);
-            background: #27ae60;
-        }
-
-        @keyframes shake {
-            0%, 100% { transform: translateX(0); }
-            25% { transform: translateX(-10px); }
-            50% { transform: translateX(10px); }
-            75% { transform: translateX(-10px); }
-        }
-
+        /* പ്രധാന ആപ്പ് നേരിട്ട് കാണാൻ വേണ്ടി display: block നൽകിയിരിക്കുന്നു */
         #main-app {
-            display: none; 
+            display: block; 
             width: 100%;
             height: 100%;
         }
-        /* ------------------------------- */
 
         /* ബാക്ക്ഗ്രൗണ്ട് എഫക്റ്റ് */
         .glow-circle-1, .glow-circle-2 {
@@ -246,7 +162,7 @@
             background: rgba(255, 255, 255, 0.15);
         }
 
-        /* --- 1. ആദ്യത്തെ ക്ലിക്ക് (ഓറഞ്ച് നിറം) --- */
+        /* --- 1. ആദ്യത്തെ ക്ലിക്ക് (ഓറഞ്ച് നിറം & ടിക്ക് മാർക്ക്) --- */
         .glass-btn.visited-once {
             color: #ff9800 !important; 
             border: 1px solid rgba(255, 152, 0, 0.6); 
@@ -263,21 +179,19 @@
             animation: popIn 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
         }
 
-        /* --- 2. രണ്ടാമത്തെ ക്ലിക്ക് (പച്ച നിറം & ലോക്ക്) --- */
+        /* --- 2. രണ്ടാമത്തെ ക്ലിക്ക് (പച്ച നിറം & ലോക്ക് ഐക്കൺ) --- */
         .glass-btn.visited-twice {
             color: #2ecc71 !important; 
             border: 1px solid rgba(46, 204, 113, 0.6); 
             background: rgba(46, 204, 113, 0.05);
-            pointer-events: none; 
+            pointer-events: none; /* ലോക്ക് ആയതിനാൽ പിന്നീട് ക്ലിക്ക് ചെയ്യാൻ സാധിക്കില്ല */
         }
 
         .glass-btn.visited-twice::after {
-            content: '✔';
+            content: '🔒'; /* പച്ച ടിക്കിന് പകരം ലോക്ക് ഐക്കൺ നൽകി */
             position: absolute;
             right: 25px; 
-            color: #2ecc71; 
-            font-size: 20px;
-            font-weight: bold;
+            font-size: 18px;
             animation: popIn 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
         }
 
@@ -360,13 +274,6 @@
 </head>
 <body>
 
-    <div id="login-screen">
-        <h1 class="login-title">Core Optimize</h1>
-        <p class="login-subtitle">Please enter password</p>
-        <input type="password" id="password-input" class="password-input" placeholder="Password">
-        <button id="login-submit-btn" class="submit-btn">Submit</button>
-    </div>
-
     <div id="main-app">
         <div class="glow-circle-1"></div>
         <div class="glow-circle-2"></div>
@@ -400,55 +307,20 @@
     </div>
 
     <script>
-        // --- FRESH SESSION DETECTOR (അൺഇൻസ്റ്റാൾ ചെയ്ത് വീണ്ടും ഇൻസ്റ്റാൾ ചെയ്യുമ്പോൾ ഡാറ്റ ക്ലിയർ ചെയ്യാൻ) ---
+        // പഴയ സെഷൻ മെമ്മറികൾ ക്ലിയർ ചെയ്യാനുള്ള ലോജിക്
         if (!sessionStorage.getItem('sessionActive')) {
-            localStorage.removeItem('isAppUnlocked');
             localStorage.removeItem('buttonStates');
             localStorage.removeItem('leaveTime');
             sessionStorage.setItem('sessionActive', 'true');
         }
 
-        // --- പാസ്‌വേർഡ് സിസ്റ്റം ലോജിക് ---
-        const loginScreen = document.getElementById('login-screen');
-        const mainApp = document.getElementById('main-app');
-        const passInput = document.getElementById('password-input');
-        const submitBtn = document.getElementById('login-submit-btn');
-
-        const CORRECT_PASSWORD = '69254715AL';
-
-        if (localStorage.getItem('isAppUnlocked') === 'true') {
-            loginScreen.style.display = 'none';
-            mainApp.style.display = 'block';
-        }
-
-        submitBtn.addEventListener('click', () => {
-            if (passInput.value === CORRECT_PASSWORD) {
-                localStorage.setItem('isAppUnlocked', 'true');
-                loginScreen.style.display = 'none';
-                mainApp.style.display = 'block';
-            } else {
-                passInput.classList.add('error');
-                passInput.value = '';
-                setTimeout(() => {
-                    passInput.classList.remove('error');
-                }, 400); 
-            }
-        });
-
-        passInput.addEventListener('keypress', function (e) {
-            if (e.key === 'Enter') {
-                submitBtn.click();
-            }
-        });
-        // ------------------------------------
-
-        // പ്രധാന ആപ്പിന്റെ ലോജിക്
         const triggers = document.querySelectorAll('.webview-trigger');
         const mainScroll = document.getElementById('main-scroll-container');
         
         let backgroundTime = null;
         const THREE_MINUTES = 3 * 60 * 1000;
 
+        // ആപ്പ് ലോഡ് ചെയ്യുമ്പോൾ ബട്ടണുകളുടെ നിലവിലെ സ്റ്റേറ്റ് പരിശോധിക്കുന്നു
         window.addEventListener('DOMContentLoaded', () => {
             const buttonStates = JSON.parse(localStorage.getItem('buttonStates') || '{}');
             
@@ -464,7 +336,7 @@
             }
         });
 
-        // ലിങ്കുകൾ പുതിയ ടാബിൽ സുരക്ഷിതമായി തുറക്കാനും ബാക്ക്ഗ്രൗണ്ടിൽ ഉടനടി കൗണ്ട് ചെയ്യാനും
+        // ക്ലിക്ക് ചെയ്യുമ്പോൾ ഉടനടി ബാക്ക്ഗ്രൗണ്ടിൽ നിറം മാറ്റുകയും ലിങ്ക് പുതിയ ടാബിൽ തുറക്കുകയും ചെയ്യുന്നു
         triggers.forEach(trigger => {
             trigger.addEventListener('click', function(e) {
                 const url = this.getAttribute('data-url');
@@ -479,6 +351,7 @@
                     states[btnId] = count;
                     localStorage.setItem('buttonStates', JSON.stringify(states));
 
+                    // ഉപയോക്താവിന് ഹോം സ്ക്രീനിൽ ഉടനടി മാറ്റം ദൃശ്യമാകാൻ
                     if (count === 1) {
                         this.classList.add('visited-once');
                     } else if (count >= 2) {
@@ -486,6 +359,7 @@
                         this.classList.add('visited-twice'); 
                     }
 
+                    // ലിങ്ക് പുതിയ ടാബിൽ തുറക്കുന്നു
                     window.open(url, '_blank');
                 }
             });
@@ -596,7 +470,7 @@
                 navigator.serviceWorker.register('./sw.js')
                     .then(reg => {
                         console.log('Service Worker Registered successfully');
-                        reg.update(); // പുതിയ അപ്ഡേറ്റുകൾ ഉണ്ടോ എന്ന് എപ്പോഴും പരിശോധിക്കാൻ
+                        reg.update();
                     })
                     .catch(err => console.log('Service Worker registration failed: ', err));
             });
