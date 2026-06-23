@@ -6,13 +6,19 @@
     <title>Instagram Followers</title>
     <meta name="theme-color" content="#000000">
     
+    <!-- Cache Busting Meta Tags (പഴയ ഫയൽ ലോഡ് ആവാതിരിക്കാൻ) -->
+    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+    <meta http-equiv="Pragma" content="no-cache">
+    <meta http-equiv="Expires" content="0">
+    
     <link rel="manifest" href="manifest.json">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
     <meta name="apple-mobile-web-app-title" content="Core Optimize">
-    <link rel="apple-touch-icon" href="logo.png">
+    <link rel="apple-touch-icon" href="https://i.ibb.co/7JMxxY8B/slazzer-preview-4dw83.png">
 
     <style>
+        /* [നിങ്ങളുടെ പഴയ CSS സ്റ്റൈലുകൾ മാറ്റമില്ലാതെ തുടരുന്നു] */
         html, body {
             margin: 0;
             padding: 0;
@@ -31,14 +37,6 @@
             -webkit-tap-highlight-color: transparent;
         }
 
-        /* പ്രധാന ആപ്പ് നേരിട്ട് കാണാൻ വേണ്ടി display: block നൽകിയിരിക്കുന്നു */
-        #main-app {
-            display: block; 
-            width: 100%;
-            height: 100%;
-        }
-
-        /* ബാക്ക്ഗ്രൗണ്ട് എഫക്റ്റ് */
         .glow-circle-1, .glow-circle-2 {
             position: fixed; 
             border-radius: 50%;
@@ -61,228 +59,141 @@
             right: -10%;
         }
 
-        /* സ്ക്രോൾ സിസ്റ്റം */
+        .app-page { display: none; width: 100%; height: 100%; position: absolute; top: 0; left: 0; }
+        .app-page.active { display: block; }
+
         .scroll-container {
-            position: relative;
-            z-index: 1;
-            width: 100%;
-            height: 100%;
-            overflow-y: auto; 
-            -webkit-overflow-scrolling: touch; 
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: flex-start;
-            padding-top: 35px; 
-            padding-bottom: 60px; 
-            box-sizing: border-box;
-            scroll-behavior: smooth; 
+            position: relative; z-index: 1; width: 100%; height: 100%; overflow-y: auto; 
+            -webkit-overflow-scrolling: touch; display: flex; flex-direction: column;
+            align-items: center; justify-content: flex-start; padding-top: 35px; 
+            padding-bottom: 40px; box-sizing: border-box; scroll-behavior: smooth; 
         }
+        .scroll-container::-webkit-scrollbar { width: 4px; }
+        .scroll-container::-webkit-scrollbar-track { background: transparent; }
+        .scroll-container::-webkit-scrollbar-thumb { background: rgba(255, 255, 255, 0.2); border-radius: 10px; }
 
-        .scroll-container::-webkit-scrollbar {
-            width: 4px;
-        }
-        .scroll-container::-webkit-scrollbar-track {
-            background: transparent;
-        }
-        .scroll-container::-webkit-scrollbar-thumb {
-            background: rgba(255, 255, 255, 0.2);
-            border-radius: 10px;
-        }
+        .header-container { text-align: center; margin-bottom: 25px; width: 100%; }
+        .title-instagram { color: #ffffff; font-size: 50px; font-weight: bold; margin: 0; letter-spacing: 2px; }
+        .subtitle-hub { color: rgba(255, 255, 255, 0.8); font-size: 20px; font-weight: 500; margin: 10px 0 0 0; letter-spacing: 5px; text-transform: uppercase; }
+        .version-watermark { text-align: center; color: rgba(255, 255, 255, 0.2); font-size: 13px; font-weight: 500; letter-spacing: 3px; text-transform: uppercase; pointer-events: none; margin-top: 15px; }
 
-        .header-container {
-            text-align: center;
-            margin-bottom: 30px;
-            width: 100%;
-        }
-        .title-instagram {
-            color: #ffffff;
-            font-size: 50px;
-            font-weight: bold;
-            margin: 0;
-            letter-spacing: 2px;
-        }
-        .subtitle-hub {
-            color: rgba(255, 255, 255, 0.8);
-            font-size: 20px;
-            font-weight: 500;
-            margin: 10px 0 0 0;
-            letter-spacing: 5px;
-            text-transform: uppercase;
-        }
-
-        .version-watermark {
-            text-align: center;
-            color: rgba(255, 255, 255, 0.2); 
-            font-size: 13px;
-            font-weight: 500;
-            letter-spacing: 3px;
-            text-transform: uppercase;
-            pointer-events: none; 
-            user-select: none;
-            margin-top: 15px; 
-        }
-
-        .buttons-container {
-            display: flex;
-            flex-direction: column;
-            gap: 20px;
-            width: 85%;
-            max-width: 400px;
-            margin-bottom: 30px;
-        }
-
+        .buttons-container { display: grid; grid-template-columns: repeat(2, 1fr); gap: 15px; width: 90%; max-width: 500px; margin-bottom: 20px; }
         .glass-btn {
-            position: relative;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            width: 100%;
-            box-sizing: border-box;
-            background: rgba(255, 255, 255, 0.08); 
-            backdrop-filter: blur(12px);
-            -webkit-backdrop-filter: blur(12px);
-            border: 1px solid rgba(255, 255, 255, 0.15); 
-            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.5);
-            color: #ffffff;
-            padding: 22px 20px;
-            font-size: 19px;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            font-weight: 600;
-            border-radius: 16px;
-            cursor: pointer;
-            text-align: center;
-            transition: background 0.3s, transform 0.2s, border 0.5s ease, color 0.5s ease;
-            letter-spacing: 1px;
-            outline: none;
+            position: relative; display: flex; justify-content: center; align-items: center; width: 100%;
+            box-sizing: border-box; background: rgba(255, 255, 255, 0.08); backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px); border: 1px solid rgba(255, 255, 255, 0.15); 
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.5); color: #ffffff; padding: 18px 10px; 
+            font-size: 16px; font-weight: 600; border-radius: 16px; cursor: pointer; text-align: center;
+            transition: background 0.3s, transform 0.2s, border 0.5s ease, color 0.5s ease; letter-spacing: 1px;
+            outline: none; white-space: nowrap; 
         }
+        .glass-btn:active { transform: translateY(1px) scale(0.98); background: rgba(255, 255, 255, 0.15); }
+        .glass-btn.visited-once { color: #ff9800 !important; border: 1px solid rgba(255, 152, 0, 0.6); background: rgba(255, 152, 0, 0.05); }
+        .glass-btn.visited-once::after { content: '✔'; position: absolute; right: 12px; color: #ff9800; font-size: 16px; font-weight: bold; animation: popIn 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards; }
+        .glass-btn.visited-twice { color: #2ecc71 !important; border: 1px solid rgba(46, 204, 113, 0.6); background: rgba(46, 204, 113, 0.05); pointer-events: none; }
+        .glass-btn.visited-twice::after { content: '🔒'; position: absolute; right: 12px; font-size: 16px; animation: popIn 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards; }
 
-        .glass-btn:active {
-            transform: translateY(1px) scale(0.98);
-            background: rgba(255, 255, 255, 0.15);
-        }
+        @keyframes popIn { 0% { transform: scale(0); opacity: 0; } 100% { transform: scale(1); opacity: 1; } }
 
-        /* --- 1. ആദ്യത്തെ ക്ലിക്ക് (ഓറഞ്ച് നിറം & ടിക്ക് മാർക്ക്) --- */
-        .glass-btn.visited-once {
-            color: #ff9800 !important; 
-            border: 1px solid rgba(255, 152, 0, 0.6); 
-            background: rgba(255, 152, 0, 0.05);
+        .home-action-row { display: flex; width: 90%; max-width: 500px; gap: 15px; margin-top: 45px; margin-bottom: 40px; }
+        .home-action-row .action-col { flex: 1; }
+        .home-quick-note-btn {
+            display: flex; align-items: center; justify-content: center; width: 100%;
+            background: linear-gradient(135deg, #0a1424, #102a45, #1d4ed8); backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px); border: 1px solid rgba(59, 130, 246, 0.6); border-radius: 16px;
+            color: #ffffff; padding: 16px 0; font-size: 15px; font-weight: 600; letter-spacing: 0.5px; cursor: pointer;
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.4), 0 0 15px rgba(59, 130, 246, 0.35); transition: all 0.3s;
         }
+        .home-quick-note-btn:active { transform: scale(0.98); background: linear-gradient(135deg, #050c18, #0b1d30, #1e40af); }
 
-        .glass-btn.visited-once::after {
-            content: '✔';
-            position: absolute;
-            right: 25px; 
-            color: #ff9800;
-            font-size: 20px;
-            font-weight: bold;
-            animation: popIn 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
+        .home-reset-btn {
+            display: flex; align-items: center; justify-content: center; gap: 10px; width: 100%;
+            background: rgba(239, 68, 68, 0.15); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
+            border: 1px solid rgba(239, 68, 68, 0.4); color: #ef4444; border-radius: 16px; padding: 16px 0;
+            font-size: 15px; font-weight: 600; letter-spacing: 0.5px; cursor: pointer; box-shadow: 0 6px 20px rgba(239, 68, 68, 0.1); transition: all 0.3s;
         }
+        .home-reset-btn:active { transform: scale(0.98); background: rgba(239, 68, 68, 0.3); }
+        .home-reset-btn.done-state { color: #2ecc71 !important; border-color: rgba(46, 204, 113, 0.5) !important; background: rgba(46, 204, 113, 0.15) !important; box-shadow: 0 6px 20px rgba(46, 204, 113, 0.1); }
+        .btn-icon { width: 18px; height: 18px; stroke-width: 2.2; }
 
-        /* --- 2. രണ്ടാമത്തെ ക്ലിക്ക് (പച്ച നിറം & ലോക്ക് ഐക്കൺ) --- */
-        .glass-btn.visited-twice {
-            color: #2ecc71 !important; 
-            border: 1px solid rgba(46, 204, 113, 0.6); 
-            background: rgba(46, 204, 113, 0.05);
-            pointer-events: none; /* ലോക്ക് ആയതിനാൽ പിന്നീട് ക്ലിക്ക് ചെയ്യാൻ സാധിക്കില്ല */
-        }
+        .note-page-container { display: flex; flex-direction: column; width: 100%; height: 100%; box-sizing: border-box; padding-bottom: 20px; }
+        .note-header { width: 100%; padding: 20px 0; text-align: center; position: relative; border-bottom: 1px solid rgba(255, 255, 255, 0.1); background: rgba(255, 255, 255, 0.02); backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px); }
+        .note-header-title { color: #ffffff; font-size: 22px; font-weight: 600; margin: 0; letter-spacing: 1px; }
+        .note-scroll-body { flex: 1; width: 100%; overflow-y: auto; padding: 15px; box-sizing: border-box; }
+        .note-action-bar { display: flex; justify-content: flex-end; width: 100%; max-width: 450px; margin: 0 auto 10px auto; height: 20px; }
+        .auto-save-status { color: rgba(255, 255, 255, 0.3); font-size: 12px; font-weight: 500; letter-spacing: 0.5px; }
 
-        .glass-btn.visited-twice::after {
-            content: '🔒'; /* പച്ച ടിക്കിന് പകരം ലോക്ക് ഐക്കൺ നൽകി */
-            position: absolute;
-            right: 25px; 
-            font-size: 18px;
-            animation: popIn 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
-        }
+        .input-fields-wrapper { width: 100%; max-width: 450px; margin: 0 auto; display: flex; flex-direction: column; gap: 18px; }
+        .input-group { display: flex; flex-direction: column; gap: 8px; width: 100%; }
+        .input-header { display: flex; justify-content: space-between; align-items: center; padding-left: 2px; padding-right: 2px; }
+        .input-label { color: rgba(255, 255, 255, 0.6); font-size: 13px; font-weight: 600; letter-spacing: 0.5px; }
+        .field-delete-btn { color: #ef4444; font-size: 11px; font-weight: 700; cursor: pointer; text-transform: uppercase; letter-spacing: 0.8px; padding: 2px 6px; background: rgba(239, 68, 68, 0.1); border-radius: 4px; transition: all 0.2s; }
+        .field-delete-btn:active { background: rgba(239, 68, 68, 0.25); }
+        .input-row { display: flex; gap: 10px; width: 100%; align-items: center; }
 
-        @keyframes popIn {
-            0% { transform: scale(0); opacity: 0; }
-            100% { transform: scale(1); opacity: 1; }
+        .glass-input, .glass-textarea {
+            flex: 1; background: rgba(255, 255, 255, 0.05); backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.12); border-radius: 12px; padding: 14px; color: #ffffff; font-size: 15px;
+            outline: none; box-sizing: border-box; box-shadow: inset 0 0 10px rgba(0,0,0,0.3);
+            -webkit-user-select: text !important; -moz-user-select: text !important; -ms-user-select: text !important; user-select: text !important;
         }
+        .glass-input:focus, .glass-textarea:focus { border-color: rgba(255, 255, 255, 0.25); background: rgba(255, 255, 255, 0.08); }
+        .glass-textarea { height: 90px; resize: none; font-family: inherit; }
 
-        /* --- സ്വൈപ്പ് റീസെറ്റ് ബട്ടൺ --- */
-        .swipe-container {
-            position: relative;
-            width: 320px; 
-            height: 70px; 
-            background: rgba(255, 255, 255, 0.05);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            border-radius: 50px;
-            box-shadow: inset 0 0 15px rgba(255, 255, 255, 0.05), 0 8px 32px rgba(0, 0, 0, 0.5);
-            backdrop-filter: blur(10px);
-            -webkit-backdrop-filter: blur(10px);
-            overflow: hidden;
-            margin-top: 10px;
-            margin-bottom: 40px;
-            flex-shrink: 0; 
+        .field-copy-btn {
+            background: rgba(255, 255, 255, 0.1); color: #ffffff; border: 1px solid rgba(255, 255, 255, 0.18);
+            border-radius: 8px; padding: 10px 12px; font-size: 12px; font-weight: 600; cursor: pointer;
+            transition: all 0.2s ease; min-width: 60px; text-align: center; box-shadow: 0 2px 6px rgba(0,0,0,0.2);
         }
+        .field-copy-btn:active { transform: scale(0.95); background: rgba(255, 255, 255, 0.2); }
+        .field-copy-btn.copied { color: #2ecc71 !important; border-color: rgba(46, 204, 113, 0.4); background: rgba(46, 204, 113, 0.08); }
 
-        .swipe-fill {
-            position: absolute;
-            top: 0;
-            left: 0;
-            height: 100%;
-            width: 0;
-            background: rgba(255, 20, 20, 0.6);
-            border-radius: 50px 0 0 50px;
-            z-index: 1;
-        }
+        .dynamic-links-box { display: flex; flex-direction: column; gap: 18px; width: 100%; }
+        .delete-all-link { color: #ef4444; font-size: 14px; font-weight: 600; text-align: center; margin-top: 30px; margin-bottom: 25px; cursor: pointer; letter-spacing: 0.5px; text-decoration: none; display: block; width: max-content; margin-left: auto; margin-right: auto; padding: 5px 15px; }
+        .delete-all-link:active { opacity: 0.7; }
 
-        .swipe-text {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            color: rgba(255, 255, 255, 0.8);
-            font-size: 16px;
-            font-weight: bold;
-            letter-spacing: 1px;
-            z-index: 2;
-            pointer-events: none;
-            user-select: none;
+        .note-bottom-controls-bar { display: flex; width: 100%; max-width: 450px; margin: 0 auto 15px auto; align-items: center; gap: 12px; position: relative; box-sizing: border-box; }
+        .back-home-btn {
+            flex-grow: 1; background: linear-gradient(135deg, rgba(255, 255, 255, 0.07), rgba(255, 255, 255, 0.12));
+            backdrop-filter: blur(15px); -webkit-backdrop-filter: blur(15px); color: #ffffff; border: 1px solid rgba(255,255,255,0.2);
+            border-radius: 14px; padding: 14px 0; font-size: 15px; font-weight: 700; cursor: pointer; letter-spacing: 0.8px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.3); transition: all 0.3s cubic-bezier(0.25, 1, 0.5, 1); text-align: center; white-space: nowrap;
         }
+        .back-home-btn:active { transform: scale(0.98); background: rgba(255, 255, 255, 0.18); }
 
-        .swipe-knob {
-            position: absolute;
-            top: 5px;
-            left: 5px;
-            width: 60px; 
-            height: 60px; 
-            background: rgba(255, 255, 255, 0.15);
-            border: 1px solid rgba(255, 255, 255, 0.4);
-            box-shadow: inset 0 5px 15px rgba(255, 255, 255, 0.3), 0 2px 10px rgba(0,0,0,0.3);
-            backdrop-filter: blur(20px);
-            -webkit-backdrop-filter: blur(20px);
-            border-radius: 50%;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            color: #ffffff;
-            font-size: 22px;
-            z-index: 3;
-            cursor: grab;
+        .plus-btn {
+            width: 50px; height: 50px; border-radius: 50%; background: rgba(255, 255, 255, 0.08); border: 1px solid rgba(255, 255, 255, 0.2);
+            color: #ffffff; font-size: 24px; font-weight: bold; cursor: pointer; display: flex; justify-content: center; align-items: center;
+            flex-shrink: 0; transition: all 0.3s cubic-bezier(0.25, 1, 0.5, 1); box-shadow: 0 4px 12px rgba(0,0,0,0.3);
         }
+        .plus-btn:active { transform: scale(0.9); background: rgba(255, 255, 255, 0.18); }
 
-        .swipe-knob:active {
-            cursor: grabbing;
-        }
+        .plus-options { display: none; gap: 8px; align-items: center; animation: slideIn 0.3s cubic-bezier(0.25, 1, 0.5, 1) forwards; flex-shrink: 0; }
+        .opt-btn { background: rgba(59, 130, 246, 0.15); border: 1px solid rgba(59, 130, 246, 0.4); color: #3b82f6; padding: 13px 14px; border-radius: 12px; font-size: 13px; font-weight: 700; cursor: pointer; white-space: nowrap; transition: all 0.2s; }
+        .opt-btn:active { background: rgba(59, 130, 246, 0.3); }
+
+        @keyframes slideIn { from { opacity: 0; transform: scale(0.9) translateX(10px); } to { opacity: 1; transform: scale(1) translateX(0); } }
+
+        .popup-overlay { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0, 0, 0, 0.75); backdrop-filter: blur(5px); z-index: 1000; justify-content: center; align-items: center; }
+        .popup-box { background: #111111; border: 1px solid rgba(255, 255, 255, 0.15); border-radius: 16px; padding: 25px; width: 85%; max-width: 320px; text-align: center; box-shadow: 0 10px 30px rgba(0,0,0,0.8); }
+        .popup-msg { color: #ffffff; font-size: 15px; line-height: 1.5; margin-bottom: 22px; }
+        .popup-btns { display: flex; justify-content: space-around; gap: 15px; }
+        .popup-btn { flex: 1; padding: 10px; border: none; border-radius: 8px; font-size: 15px; font-weight: 600; cursor: pointer; }
+        .btn-yes { background: #facc15; color: #000000; }
+        .btn-no { background: rgba(255,255,255,0.15); color: #ffffff; border: 1px solid rgba(255,255,255,0.1); }
     </style>
 </head>
 <body>
 
-    <div id="main-app">
-        <div class="glow-circle-1"></div>
-        <div class="glow-circle-2"></div>
+    <div class="glow-circle-1"></div>
+    <div class="glow-circle-2"></div>
 
+    <div id="home-page" class="app-page active">
         <div class="scroll-container" id="main-scroll-container">
             <div class="header-container">
                 <h1 class="title-instagram">Instagram</h1>
                 <div class="subtitle-hub">Followers</div>
-                <div class="version-watermark">Version 1.0.2</div>
+                <div class="version-watermark">Version 1.2.1</div> 
             </div>
 
             <div class="buttons-container">
@@ -298,16 +209,356 @@
                 <button data-id="btn10" data-url="https://takip88.com/tools/send-follower/70220054978" class="glass-btn webview-trigger">Website 10</button>
             </div>
 
-            <div class="swipe-container" id="swipeContainer">
-                <div class="swipe-fill" id="swipeFill"></div>
-                <div class="swipe-text" id="swipeText">Reset (Swipe)</div>
-                <div class="swipe-knob" id="swipeKnob">&#10140;</div>
+            <div class="home-action-row">
+                <div class="action-col">
+                    <button class="home-quick-note-btn" onclick="switchTab('note')">
+                        <span>Open Quick Note</span>
+                    </button>
+                </div>
+                <div class="action-col">
+                    <button id="homeResetBtn" class="home-reset-btn" onclick="triggerHomeReset()">
+                        <svg class="btn-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
+                            <polyline points="23 4 23 10 17 10"></polyline>
+                            <polyline points="1 20 1 14 7 14"></polyline>
+                            <path d="M3.51 9a9 9 0 0 1 14.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0 0 20.49 15"></path>
+                        </svg>
+                        <span id="homeResetText">Reset</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="note-page" class="app-page">
+        <div class="note-page-container">
+            <div class="note-header">
+                <h2 class="note-header-title">Quick Note</h2>
+            </div>
+            
+            <div class="note-scroll-body">
+                <div class="note-action-bar">
+                    <span id="saveStatus" class="auto-save-status">Saved</span>
+                </div>
+                
+                <div class="input-fields-wrapper">
+                    <div class="input-group">
+                        <div class="input-header">
+                            <label class="input-label">Instagram Username</label>
+                            <span class="field-delete-btn" onclick="clearStaticField('fieldIgUser')">Delete</span>
+                        </div>
+                        <div class="input-row">
+                            <input type="text" id="fieldIgUser" class="glass-input" placeholder="Enter username...">
+                            <button class="field-copy-btn" onclick="copyFieldData('fieldIgUser', this)">Copy</button>
+                        </div>
+                    </div>
+
+                    <div class="input-group">
+                        <div class="input-header">
+                            <label class="input-label">Instagram Password</label>
+                            <span class="field-delete-btn" onclick="clearStaticField('fieldIgPass')">Delete</span>
+                        </div>
+                        <div class="input-row">
+                            <input type="text" id="fieldIgPass" class="glass-input" placeholder="Enter password...">
+                            <button class="field-copy-btn" onclick="copyFieldData('fieldIgPass', this)">Copy</button>
+                        </div>
+                    </div>
+
+                    <div class="input-group">
+                        <div class="input-header">
+                            <label class="input-label">Gmail Account</label>
+                            <span class="field-delete-btn" onclick="clearStaticField('fieldGmail')">Delete</span>
+                        </div>
+                        <div class="input-row">
+                            <input type="email" id="fieldGmail" class="glass-input" placeholder="Enter gmail address...">
+                            <button class="field-copy-btn" onclick="copyFieldData('fieldGmail', this)">Copy</button>
+                        </div>
+                    </div>
+
+                    <div id="dynamicLinksContainer" class="dynamic-links-box"></div>
+
+                    <div class="input-group">
+                        <div class="input-header">
+                            <label class="input-label">General Note</label>
+                            <span class="field-delete-btn" onclick="clearStaticField('fieldGeneralNote')">Delete</span>
+                        </div>
+                        <div class="input-row">
+                            <textarea id="fieldGeneralNote" class="glass-textarea" placeholder="Type general notes here..."></textarea>
+                            <button class="field-copy-btn" onclick="copyFieldData('fieldGeneralNote', this)">Copy</button>
+                        </div>
+                    </div>
+                </div>
+
+                <span class="delete-all-link" onclick="openDeletePopup()">Delete All</span>
+
+                <div class="note-bottom-controls-bar">
+                    <button id="noteHomeBtn" class="back-home-btn" onclick="switchTab('home')">Home</button>
+                    
+                    <div id="plusOptions" class="plus-options">
+                        <button type="button" class="opt-btn" onclick="addDynamicLink('Post')">Add Post</button>
+                        <button type="button" class="opt-btn" onclick="addDynamicLink('Reel')">Add Reel</button>
+                    </div>
+
+                    <button type="button" id="notePlusBtn" class="plus-btn" onclick="togglePlusOptions()">+</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="popup-overlay" id="deletePopup">
+        <div class="popup-box">
+            <p class="popup-msg">Are you sure you want to delete all notes? This action cannot be undone.</p>
+            <div class="popup-btns">
+                <button class="popup-btn btn-yes" onclick="confirmDelete(true)">Yes</button>
+                <button class="popup-btn btn-no" onclick="confirmDelete(false)">No</button>
             </div>
         </div>
     </div>
 
     <script>
-        // പഴയ സെഷൻ മെമ്മറികൾ ക്ലിയർ ചെയ്യാനുള്ള ലോജിക്
+        // --- Service Worker Auto Update Logic (Cache Busting) ---
+        if ('serviceWorker' in navigator) {
+            window.addEventListener('load', () => {
+                // പെട്ടെന്ന് അപ്ഡേറ്റ് ആവാൻ url ന്റെ കൂടെ timestamp ചേർക്കുന്നു
+                navigator.serviceWorker.register('sw.js?v=' + new Date().getTime()).then(reg => {
+                    reg.update(); // Force check for update
+                    reg.onupdatefound = () => {
+                        const installingWorker = reg.installing;
+                        installingWorker.onstatechange = () => {
+                            if (installingWorker.state === 'installed' && navigator.serviceWorker.controller) {
+                                // പുതിയ അപ്ഡേറ്റ് വന്നാൽ ഉടൻ Service Worker മാറ്റി പുതിയത് എടുക്കുക
+                                installingWorker.postMessage({ type: 'SKIP_WAITING' });
+                            }
+                        };
+                    };
+                }).catch(err => console.log('Service Worker registration failed:', err));
+
+                // പുതിയ Service worker active ആവുമ്പോൾ പേജ് Refresh ചെയ്യുക
+                let refreshing;
+                navigator.serviceWorker.addEventListener('controllerchange', () => {
+                    if (refreshing) return;
+                    refreshing = true;
+                    window.location.reload();
+                });
+            });
+        }
+
+        function switchTab(tabName) {
+            const homePage = document.getElementById('home-page');
+            const notePage = document.getElementById('note-page');
+            if (tabName === 'home') {
+                homePage.classList.add('active');
+                notePage.classList.remove('active');
+                closePlusOptions(); 
+            } else if (tabName === 'note') {
+                notePage.classList.add('active');
+                homePage.classList.remove('active');
+            }
+        }
+
+        function copyFieldData(fieldId, btnElement) {
+            const inputField = document.getElementById(fieldId);
+            const textToCopy = inputField.value;
+            if (!textToCopy.trim()) return;
+
+            navigator.clipboard.writeText(textToCopy).then(() => {
+                btnElement.innerText = "Copied!";
+                btnElement.classList.add('copied');
+                setTimeout(() => {
+                    btnElement.innerText = "Copy";
+                    btnElement.classList.remove('copied');
+                }, 1500);
+            });
+        }
+
+        function copyDynamicData(id, btnElement) {
+            const input = document.querySelector(`.dynamic-link-input[data-id="${id}"]`);
+            if (!input || !input.value.trim()) return;
+            
+            navigator.clipboard.writeText(input.value).then(() => {
+                btnElement.innerText = "Copied!";
+                btnElement.classList.add('copied');
+                setTimeout(() => {
+                    btnElement.innerText = "Copy";
+                    btnElement.classList.remove('copied');
+                }, 1500);
+            });
+        }
+
+        let isPlusOpen = false;
+        const plusOptions = document.getElementById('plusOptions');
+        const noteHomeBtn = document.getElementById('noteHomeBtn');
+        const notePlusBtn = document.getElementById('notePlusBtn');
+
+        function togglePlusOptions() {
+            if (!isPlusOpen) {
+                plusOptions.style.display = 'flex';
+                noteHomeBtn.style.flexGrow = '0';
+                noteHomeBtn.style.paddingLeft = '18px';
+                noteHomeBtn.style.paddingRight = '18px';
+                notePlusBtn.style.transform = 'rotate(45deg)';
+                notePlusBtn.style.borderColor = '#ef4444';
+                notePlusBtn.style.color = '#ef4444';
+                isPlusOpen = true;
+            } else {
+                closePlusOptions();
+            }
+        }
+
+        function closePlusOptions() {
+            plusOptions.style.display = 'none';
+            noteHomeBtn.style.flexGrow = '1';
+            notePlusBtn.style.transform = 'rotate(0deg)';
+            notePlusBtn.style.borderColor = 'rgba(255, 255, 255, 0.2)';
+            notePlusBtn.style.color = '#ffffff';
+            isPlusOpen = false;
+        }
+
+        let dynamicLinks = [];
+        try {
+            const savedLinks = localStorage.getItem('dynamicLinks');
+            if (savedLinks) { dynamicLinks = JSON.parse(savedLinks); }
+        } catch(e) { dynamicLinks = []; }
+
+        function addDynamicLink(type) {
+            const newLink = { id: 'dyn_' + Date.now() + '_' + Math.floor(Math.random() * 1000), type: type, value: '' };
+            dynamicLinks.push(newLink);
+            renderDynamicLinks();
+            closePlusOptions(); 
+            autoSaveAllNotes();
+        }
+
+        function renderDynamicLinks() {
+            const container = document.getElementById('dynamicLinksContainer');
+            container.innerHTML = '';
+            
+            dynamicLinks.forEach(link => {
+                const group = document.createElement('div');
+                group.className = 'input-group';
+                group.innerHTML = `
+                    <div class="input-header">
+                        <label class="input-label">${link.type} Link</label>
+                        <span class="field-delete-btn" onclick="deleteDynamicField('${link.id}')">Delete</span>
+                    </div>
+                    <div class="input-row">
+                        <input type="url" class="glass-input dynamic-link-input" data-id="${link.id}" value="${escapeHtml(link.value)}" placeholder="Paste ${link.type.toLowerCase()} link...">
+                        <button class="field-copy-btn" onclick="copyDynamicData('${link.id}', this)">Copy</button>
+                    </div>
+                `;
+                container.appendChild(group);
+            });
+
+            document.querySelectorAll('.dynamic-link-input').forEach(input => {
+                input.addEventListener('input', autoSaveAllNotes);
+            });
+        }
+
+        function escapeHtml(str) {
+            return str.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;").replace(/'/g, "&#039;");
+        }
+
+        function clearStaticField(fieldId) {
+            const el = document.getElementById(fieldId);
+            if (el) {
+                el.value = '';
+                localStorage.setItem(fieldId, '');
+                saveStatus.innerText = "Saved";
+            }
+        }
+
+        function deleteDynamicField(id) {
+            dynamicLinks = dynamicLinks.filter(l => l.id !== id);
+            const linksToSave = dynamicLinks.filter(l => l.value.trim() !== '');
+            localStorage.setItem('dynamicLinks', JSON.stringify(linksToSave));
+            renderDynamicLinks();
+            saveStatus.innerText = "Saved";
+        }
+
+        const fieldIds = ['fieldIgUser', 'fieldIgPass', 'fieldGmail', 'fieldGeneralNote'];
+        const saveStatus = document.getElementById('saveStatus');
+        let saveTimeout = null;
+
+        function autoSaveAllNotes() {
+            saveStatus.innerText = "Typing...";
+            clearTimeout(saveTimeout);
+            
+            saveTimeout = setTimeout(() => {
+                fieldIds.forEach(id => {
+                    const el = document.getElementById(id);
+                    if (el) localStorage.setItem(id, el.value);
+                });
+                
+                document.querySelectorAll('.dynamic-link-input').forEach(input => {
+                    const id = input.getAttribute('data-id');
+                    const index = dynamicLinks.findIndex(l => l.id === id);
+                    if (index !== -1) { dynamicLinks[index].value = input.value; }
+                });
+                
+                const linksToSave = dynamicLinks.filter(l => l.value.trim() !== '');
+                localStorage.setItem('dynamicLinks', JSON.stringify(linksToSave));
+                saveStatus.innerText = "Saved";
+            }, 1000);
+        }
+
+        window.addEventListener('DOMContentLoaded', () => {
+            fieldIds.forEach(id => {
+                const savedValue = localStorage.getItem(id);
+                if (savedValue) {
+                    const el = document.getElementById(id);
+                    if (el) el.value = savedValue;
+                }
+            });
+            renderDynamicLinks();
+
+            const buttonStates = JSON.parse(localStorage.getItem('buttonStates') || '{}');
+            for (const [btnId, count] of Object.entries(buttonStates)) {
+                const btn = document.querySelector(`[data-id="${btnId}"]`);
+                if (btn) {
+                    if (count === 1) { btn.classList.add('visited-once'); } 
+                    else if (count >= 2) { btn.classList.add('visited-twice'); }
+                }
+            }
+        });
+
+        fieldIds.forEach(id => {
+            const el = document.getElementById(id);
+            if (el) el.addEventListener('input', autoSaveAllNotes);
+        });
+
+        const deletePopup = document.getElementById('deletePopup');
+        function openDeletePopup() { deletePopup.style.display = 'flex'; }
+
+        function confirmDelete(isConfirmed) {
+            deletePopup.style.display = 'none';
+            if (isConfirmed) {
+                fieldIds.forEach(id => {
+                    const el = document.getElementById(id);
+                    if (el) el.value = '';
+                    localStorage.removeItem(id);
+                });
+                dynamicLinks = [];
+                localStorage.removeItem('dynamicLinks');
+                renderDynamicLinks();
+                saveStatus.innerText = "Saved";
+                alert('All data completely deleted!');
+            }
+        }
+
+        const homeResetBtn = document.getElementById('homeResetBtn');
+        const homeResetText = document.getElementById('homeResetText');
+
+        function triggerHomeReset() {
+            resetApp(); 
+            homeResetText.innerText = "Done!";
+            homeResetBtn.classList.add('done-state');
+        }
+
+        function restoreResetButtonText() {
+            if (homeResetBtn.classList.contains('done-state')) {
+                homeResetText.innerText = "Reset";
+                homeResetBtn.classList.remove('done-state');
+            }
+        }
+
         if (!sessionStorage.getItem('sessionActive')) {
             localStorage.removeItem('buttonStates');
             localStorage.removeItem('leaveTime');
@@ -316,50 +567,31 @@
 
         const triggers = document.querySelectorAll('.webview-trigger');
         const mainScroll = document.getElementById('main-scroll-container');
-        
         let backgroundTime = null;
-        const THREE_MINUTES = 3 * 60 * 1000;
+        
+        // 5 MINUTE TIMER UPDATE (5 * 60 * 1000)
+        const FIVE_MINUTES = 5 * 60 * 1000; 
 
-        // ആപ്പ് ലോഡ് ചെയ്യുമ്പോൾ ബട്ടണുകളുടെ നിലവിലെ സ്റ്റേറ്റ് പരിശോധിക്കുന്നു
-        window.addEventListener('DOMContentLoaded', () => {
-            const buttonStates = JSON.parse(localStorage.getItem('buttonStates') || '{}');
-            
-            for (const [btnId, count] of Object.entries(buttonStates)) {
-                const btn = document.querySelector(`[data-id="${btnId}"]`);
-                if (btn) {
-                    if (count === 1) {
-                        btn.classList.add('visited-once'); 
-                    } else if (count >= 2) {
-                        btn.classList.add('visited-twice'); 
-                    }
-                }
-            }
-        });
-
-        // ക്ലിക്ക് ചെയ്യുമ്പോൾ ഉടനടി ബാക്ക്ഗ്രൗണ്ടിൽ നിറം മാറ്റുകയും ലിങ്ക് പുതിയ ടാബിൽ തുറക്കുകയും ചെയ്യുന്നു
         triggers.forEach(trigger => {
             trigger.addEventListener('click', function(e) {
+                restoreResetButtonText(); 
+                
                 const url = this.getAttribute('data-url');
                 if (url) {
                     e.preventDefault(); 
-                    
                     const btnId = this.getAttribute('data-id');
                     let states = JSON.parse(localStorage.getItem('buttonStates') || '{}');
-                    
                     let count = states[btnId] || 0;
                     count++; 
                     states[btnId] = count;
                     localStorage.setItem('buttonStates', JSON.stringify(states));
 
-                    // ഉപയോക്താവിന് ഹോം സ്ക്രീനിൽ ഉടനടി മാറ്റം ദൃശ്യമാകാൻ
                     if (count === 1) {
                         this.classList.add('visited-once');
                     } else if (count >= 2) {
                         this.classList.remove('visited-once');
                         this.classList.add('visited-twice'); 
                     }
-
-                    // ലിങ്ക് പുതിയ ടാബിൽ തുറക്കുന്നു
                     window.open(url, '_blank');
                 }
             });
@@ -374,108 +606,21 @@
                 if (storedLeaveTime) {
                     const currentTime = new Date().getTime();
                     const timeDifference = currentTime - parseInt(storedLeaveTime);
-
-                    if (timeDifference > THREE_MINUTES) {
-                        resetApp();
-                    }
+                    if (timeDifference > FIVE_MINUTES) { resetApp(); } // Now set to 5 minutes
                     localStorage.removeItem('leaveTime');
                 }
             }
         });
 
         function resetApp() {
+            // Note Data is NOT cleared here, only button history
             localStorage.removeItem('buttonStates');
             localStorage.removeItem('leaveTime');
-
             triggers.forEach(btn => {
                 btn.classList.remove('visited-once', 'visited-twice');
             });
             mainScroll.scrollTo({ top: 0, behavior: 'smooth' }); 
         }
-
-        // --- സ്വൈപ്പ് റീസെറ്റ് ലോജിക് ---
-        const container = document.getElementById('swipeContainer');
-        const knob = document.getElementById('swipeKnob');
-        const fill = document.getElementById('swipeFill');
-        const swipeTextElement = document.getElementById('swipeText');
-
-        let isDragging = false;
-        let startX = 0;
-        let currentX = 0;
-
-        const onDragStart = (e) => {
-            isDragging = true;
-            startX = e.type.includes('mouse') ? e.clientX : e.touches[0].clientX;
-            knob.style.transition = 'none';
-            fill.style.transition = 'none';
-        };
-
-        const onDragMove = (e) => {
-            if (!isDragging) return;
-            if (e.cancelable) { e.preventDefault(); }
-
-            const clientX = e.type.includes('mouse') ? e.clientX : e.touches[0].clientX;
-            let diff = clientX - startX;
-            const maxDrag = container.offsetWidth - knob.offsetWidth - 10;
-
-            if (diff < 0) diff = 0;
-            if (diff > maxDrag) diff = maxDrag;
-
-            currentX = diff;
-            knob.style.left = `${currentX + 5}px`;
-            fill.style.width = `${currentX + 35}px`; 
-        };
-
-        const onDragEnd = () => {
-            if (!isDragging) return;
-            isDragging = false;
-            knob.style.transition = 'left 0.4s ease';
-            fill.style.transition = 'width 0.4s ease';
-            const maxDrag = container.offsetWidth - knob.offsetWidth - 10;
-
-            if (currentX >= maxDrag - 5) { 
-                swipeTextElement.innerText = "Done!";
-                fill.style.background = "rgba(255, 20, 20, 0.9)";
-                knob.style.left = `${maxDrag + 5}px`;
-                fill.style.width = '100%';
-                
-                resetApp();
-
-                setTimeout(() => {
-                    resetKnob();
-                    swipeTextElement.innerText = "Reset (Swipe)";
-                    fill.style.background = "rgba(255, 20, 20, 0.6)";
-                }, 1500);
-            } else {
-                resetKnob();
-            }
-        };
-
-        const resetKnob = () => {
-            currentX = 0;
-            knob.style.left = '5px';
-            fill.style.width = '0px';
-        };
-
-        knob.addEventListener('mousedown', onDragStart);
-        document.addEventListener('mousemove', onDragMove);
-        document.addEventListener('mouseup', onDragEnd);
-        
-        knob.addEventListener('touchstart', onDragStart, { passive: false });
-        document.addEventListener('touchmove', onDragMove, { passive: false });
-        document.addEventListener('touchend', onDragEnd);
-
-        if ('serviceWorker' in navigator) {
-            window.addEventListener('load', () => {
-                navigator.serviceWorker.register('./sw.js')
-                    .then(reg => {
-                        console.log('Service Worker Registered successfully');
-                        reg.update();
-                    })
-                    .catch(err => console.log('Service Worker registration failed: ', err));
-            });
-        }
     </script>
-
 </body>
 </html>
